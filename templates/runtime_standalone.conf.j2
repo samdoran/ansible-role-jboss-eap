@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+
+MAX_FD="{{ jboss_eap_runtime_max_fd }}"
+{% if jboss_eap_profiler is defined and jboss_eap_profiler != "" %}
+PROFILER="{{ jboss_eap_runtime_profiler }}"
+{% endif %}
+{% if jboss_eap_runtime_java_home is defined and jboss_eap_runtime_java_home != "" %}
+JAVA_HOME="{{ jboss_eap_runtime_java_home }}"
+{% endif %}
+{% if jboss_eap_runtime_java_bin is defined and jboss_eap_runtime_java_bin != "" %}
+JAVA="{{ jboss_eap_runtime_java_bin }}"
+{% endif %}
+
+if [ "x$JBOSS_MODULES_SYSTEM_PKGS" = "x" ]; then
+   JBOSS_MODULES_SYSTEM_PKGS="org.jboss.byteman"
+fi
+
+{% if jboss_eap_runtime_preserve_java_opts is defined and jboss_eap_runtime_preserve_java_opts != "" %}
+PRESERVE_JAVA_OPTS={{ jboss_eap_runtime_preserve_java_opts | lower }}
+{% endif %}
+
+{% for opt in jboss_eap_runtime_java_opts %}
+JAVA_OPTS="{% if not loop.first %}$JAVA_OPTS {% endif %}{{ opt }}"
+{% endfor %}
+
+{% if jboss_eap_runtime_secmgr is defined and jboss_eap_runtime_secmgr != "" %}
+SECMGR="{{ jboss_eap_runtime_secmgr }}"
+{% endif %}

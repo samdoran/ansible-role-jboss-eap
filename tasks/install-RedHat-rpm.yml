@@ -5,10 +5,30 @@
   tags:
     - jboss_eap
 
-- name: Copy EAP configuration
+- name: RHEL | Copy EAP service configuration (sysconfig_eap{{ jboss_eap_base_version | int }}.j2)
   template:
     src: sysconfig_eap{{ jboss_eap_base_version | int }}.j2
     dest: "{{ jboss_eap_service_conf_file }}"
+  notify: restart eap
+  tags:
+    - jboss_eap
+    - jboss_config
+
+- name: RHEL | Copy EAP runtime configuration ({{ jboss_eap_runtime_conf_file }})
+  template:
+    src: runtime_{{ jboss_eap_configuration }}.conf.j2
+    dest: "{{ jboss_eap_runtime_conf_file }}"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+  notify: restart eap
+  tags:
+    - jboss_eap
+    - jboss_config
+
+- name: RHEL | Copy EAP server configuration ({{ jboss_eap_server_config }})
+  copy:
+    src: "{{ jboss_eap_server_config }}"
+    dest: "{{ jboss_eap_jboss_home }}/{{ jboss_eap_server_config }}"
   notify: restart eap
   tags:
     - jboss_eap

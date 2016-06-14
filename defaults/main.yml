@@ -1,22 +1,48 @@
 jboss_eap_install_method: rpm
-jboss_eap_base_version: 7.0
+jboss_eap_base_version: 6.4
 jboss_eap_service_name: "{{ jboss_eap_base_version | version_compare('7.0', '<') | ternary('jbossas', 'eap7-standalone') }}"
+jboss_eap_runtime_conf_file: "{{ jboss_eap_jboss_home }}/bin/{{ jboss_eap_configuration }}.conf"
 jboss_eap_java_home: "/usr/lib/jvm/jre"         # /usr/lib/jvm/jre for JRE, /usr/lib/jvm/jdk for JDK
 jboss_eap_javapth: "$JAVA_HOME/bin"             # Make sure java is on your path
 
-# Settings for EAP6
+# Service settings for EAP6
 jboss_eap_user: jboss                           # The username who should own the process.
 jboss_eap_group: jboss                          # The group in which the username who should own the process belongs to.
 jboss_eap_startup_wait: 60                      # The amount of time to wait for startup
 jboss_eap_shutdown_wait: 20                     # The amount of time to wait for shutdown
-jboss_eap_jboss_home: "/usr/share/jbossa"       # Define where jboss is - this is the directory containing directories appclient, bin, bundles, docs, domain etc
+jboss_eap_jboss_home: "/usr/share/{{ jboss_eap_service_name }}"       # Define where jboss is - this is the directory containing directories appclient, bin, bundles, docs, domain etc
 jboss_eap_configuration: standalone             # Define jboss configuration to start
 jboss_eap_console_log: "/var/log/jbossas/$JBOSSCONF/console.log"  # Location to keep the console log, the file to be searched for the server
 jboss_eap_sh: "$JBOSS_HOME/bin/$JBOSSCONF.sh"   # Define the script to use to start jboss
-jboss_eap_server_config: standalone.xml        # Define server configuration to start, eg. standalone.xml
+jboss_eap_server_config: "{{ jboss_eap_configuration }}.xml" # Define server configuration to start, eg. standalone.xml
 jboss_eap_module_path: "$JBOSS_HOME/modules"    # Define where jboss module directory is
 
-# ???
+# Service settings for EAP7
+jboss_eap_wildfly_console_log: /var/opt/rh/eap7/log/wildfly/standalone/console.log    # Location to keep the console log
+jboss_eap_wildfly_sh: /opt/rh/eap7/root/usr/share/wildfly/bin/standalone.sh           # Define the script to use to start wildfly
+jboss_eap_wildfly_module_path: /opt/rh/eap7/root/usr/share/wildfly/modules            # Define where wildfly module directory is
+jboss_eap_wildfly_bind: "0.0.0.0"                                                     # The address to bind to
+
+# Runtime Settings for EAP6
+jboss_eap_runtime_initial_memory: "{{ ansible_memtotal_mb // 4 }}m"
+jboss_eap_runtime_max_memory: "{{ ansible_memtotal_mb // 2 }}m"
+jboss_eap_runtime_maxpermsize: "{{ ansible_memtotal_mb // 8 }}m"
+jboss_eap_runtime_max_fd: maximum                     # Specify the maximum file descriptor limit, use "max" or "maximum" to use
+jboss_eap_runtime_profiler: ""                        # Specify the profiler configuration file to load. Default is to not load profiler configuration file.
+jboss_eap_runtime_java_home: ""                       # Specify the location of the Java home directory.
+jboss_eap_runtime_java_bin: ""                        # Specify the exact Java VM executable to use.
+jboss_eap_runtime_preserve_java_opts: ""              # Prevent manipulation of JVM options by shell scripts. true or false
+jboss_eap_runtime_java_opts:
+  - "-Xms{{ jboss_eap_runtime_initial_memory }} -Xmx{{ jboss_eap_runtime_max_memory }} -XX:MaxPermSize={{ jboss_eap_runtime_maxpermsize }} -Djava.net.preferIPv4Stack=true"
+  - "-Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
+  - "-Djboss.modules.policy-permissions=true"
+  - "-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n"      # Sample JPDA settings for remote socket debugging
+  # - "-agentlib:jdwp=transport=dt_shmem,server=y,suspend=n,address=jboss"      # Sample JPDA settings for shared memory debugging
+  # - "-Djboss.modules.lockless=false"                  # Do not use JBoss Modules lockless mode
+  # - "-Djboss.modules.metrics=true"                    # Gather JBoss Modules metrics
+jboss_eap_runtime_secmgr: ""                          # Whether to run with a security manager enabled. true or false
+jboss_eap_runtime_:
+
 jboss_eap_logging_timezone: America/New_York
 jboss_eap_bind_web_interface: true
 jboss_eap_bind_management_interface: false
@@ -25,8 +51,3 @@ jboss_eap_config: standalone.xml
 jboss_eap_bind_web_address: 0.0.0.0
 jboss_eap_bind_management_address: 0.0.0.0
 
-# Settings for EAP7
-jboss_eap_wildfly_console_log: /var/opt/rh/eap7/log/wildfly/standalone/console.log    # Location to keep the console log
-jboss_eap_wildfly_sh: /opt/rh/eap7/root/usr/share/wildfly/bin/standalone.sh           # Define the script to use to start wildfly
-jboss_eap_wildfly_module_path: /opt/rh/eap7/root/usr/share/wildfly/modules            # Define where wildfly module directory is
-jboss_eap_wildfly_bind: "0.0.0.0"                                                     # The address to bind to
