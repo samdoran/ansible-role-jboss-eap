@@ -1,0 +1,9 @@
+#  {{ ansible_managed }}
+
+JAVA_HOME={{ jboss_eap_java_home }}
+JAVAPTH="{{ jboss_eap_javapth }}"
+WILDFLY_CONSOLE_LOG={{ jboss_eap_wildfly_console_log }}
+WILDFLY_SH="{{ jboss_eap_wildfly_sh }}"
+WILDFLY_SERVER_CONFIG={{ jboss_eap_server_config }}
+WILDFLY_MODULEPATH="{{ jboss_eap_wildfly_module_path }}"
+WILDFLY_BIND={{ jboss_eap_wildfly_bind }}

@@ -1,0 +1,2 @@
+jboss_eap_service_conf_dir: "/etc/sysconfig"
+jboss_eap_service_conf_file: "{{ jboss_eap_service_conf_dir }}/{{ jboss_eap_service_name }}"

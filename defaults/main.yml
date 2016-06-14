@@ -1,0 +1,32 @@
+jboss_eap_install_method: rpm
+jboss_eap_base_version: 7.0
+jboss_eap_service_name: "{{ jboss_eap_base_version | version_compare('7.0', '<') | ternary('jbossas', 'eap7-standalone') }}"
+jboss_eap_java_home: "/usr/lib/jvm/jre"         # /usr/lib/jvm/jre for JRE, /usr/lib/jvm/jdk for JDK
+jboss_eap_javapth: "$JAVA_HOME/bin"             # Make sure java is on your path
+
+# Settings for EAP6
+jboss_eap_user: jboss                           # The username who should own the process.
+jboss_eap_group: jboss                          # The group in which the username who should own the process belongs to.
+jboss_eap_startup_wait: 60                      # The amount of time to wait for startup
+jboss_eap_shutdown_wait: 20                     # The amount of time to wait for shutdown
+jboss_eap_jboss_home: "/usr/share/jbossa"       # Define where jboss is - this is the directory containing directories appclient, bin, bundles, docs, domain etc
+jboss_eap_configuration: standalone             # Define jboss configuration to start
+jboss_eap_console_log: "/var/log/jbossas/$JBOSSCONF/console.log"  # Location to keep the console log, the file to be searched for the server
+jboss_eap_sh: "$JBOSS_HOME/bin/$JBOSSCONF.sh"   # Define the script to use to start jboss
+jboss_eap_server_config: standalone.xml        # Define server configuration to start, eg. standalone.xml
+jboss_eap_module_path: "$JBOSS_HOME/modules"    # Define where jboss module directory is
+
+# ???
+jboss_eap_logging_timezone: America/New_York
+jboss_eap_bind_web_interface: true
+jboss_eap_bind_management_interface: false
+jboss_eap_apply_patch: true
+jboss_eap_config: standalone.xml
+jboss_eap_bind_web_address: 0.0.0.0
+jboss_eap_bind_management_address: 0.0.0.0
+
+# Settings for EAP7
+jboss_eap_wildfly_console_log: /var/opt/rh/eap7/log/wildfly/standalone/console.log    # Location to keep the console log
+jboss_eap_wildfly_sh: /opt/rh/eap7/root/usr/share/wildfly/bin/standalone.sh           # Define the script to use to start wildfly
+jboss_eap_wildfly_module_path: /opt/rh/eap7/root/usr/share/wildfly/modules            # Define where wildfly module directory is
+jboss_eap_wildfly_bind: "0.0.0.0"                                                     # The address to bind to

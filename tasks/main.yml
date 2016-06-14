@@ -1,0 +1,14 @@
+- name: Include distribution specific variables
+  include_vars: "{{ item }}"
+  with_items:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - jboss_eap
+    - jboss_config
+
+- name: Include appropriate installer tasks
+  include: "install-{{ ansible_os_family }}-{{ jboss_eap_install_method }}.yml"
+  tags:
+    - jboss_eap
+

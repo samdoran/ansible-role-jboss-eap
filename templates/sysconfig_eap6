@@ -1,0 +1,14 @@
+#  {{ ansible_managed }}
+
+JBOSS_USER="{{ jboss_eap_user }}"
+JBOSS_GROUP="{{ jboss_eap_group }}"
+JBOSS_STARTUP_WAIT="{{ jboss_eap_startup_wait }}"
+JBOSS_SHUTDOWN_WAIT="{{ jboss_eap_shutdown_wait }}"
+JAVA_HOME={{ jboss_eap_java_home }}
+JBOSS_HOME="{{ jboss_eap_jboss_home }}"
+JAVAPTH="{{ jboss_eap_javapth }}"
+JBOSSCONF="standalone"
+JBOSS_CONSOLE_LOG={{ jboss_eap_console_log }}
+JBOSSSH="{{ jboss_eap_sh }}"
+JBOSS_SERVER_CONFIG="{{ jboess_eap_server_config }}"
+JBOSS_MODULEPATH="{{ jboss_eap_module_path }}"
