@@ -24,6 +24,9 @@ jboss_eap_wildfly_module_path: /opt/rh/eap7/root/usr/share/wildfly/modules      
 jboss_eap_wildfly_bind: "0.0.0.0"                                                     # The address to bind to
 
 # Runtime Settings for EAP6
+jboss_eap_runtime_bind_address: "0.0.0.0"
+jboss_eap_bind_address_management: "0.0.0.0"
+jboss_eap_runtime_logging_timezone: "America/New_York"
 jboss_eap_runtime_initial_memory: "{{ ansible_memtotal_mb // 4 }}m"
 jboss_eap_runtime_max_memory: "{{ ansible_memtotal_mb // 2 }}m"
 jboss_eap_runtime_maxpermsize: "{{ ansible_memtotal_mb // 8 }}m"
@@ -36,18 +39,13 @@ jboss_eap_runtime_java_opts:
   - "-Xms{{ jboss_eap_runtime_initial_memory }} -Xmx{{ jboss_eap_runtime_max_memory }} -XX:MaxPermSize={{ jboss_eap_runtime_maxpermsize }} -Djava.net.preferIPv4Stack=true"
   - "-Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
   - "-Djboss.modules.policy-permissions=true"
-  - "-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n"      # Sample JPDA settings for remote socket debugging
+  - "-Djboss.bind.address={{ jboss_eap_runtime_bind_address }}"
+  - "-Djboss.bind.address.management={{ jboss_eap_bind_address_management }}"
+  - "-Duser.timezone={{ jboss_eap_runtime_logging_timezone }}"
+  # - "-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n"      # Sample JPDA settings for remote socket debugging
   # - "-agentlib:jdwp=transport=dt_shmem,server=y,suspend=n,address=jboss"      # Sample JPDA settings for shared memory debugging
   # - "-Djboss.modules.lockless=false"                  # Do not use JBoss Modules lockless mode
   # - "-Djboss.modules.metrics=true"                    # Gather JBoss Modules metrics
 jboss_eap_runtime_secmgr: ""                          # Whether to run with a security manager enabled. true or false
-jboss_eap_runtime_:
 
-jboss_eap_logging_timezone: America/New_York
-jboss_eap_bind_web_interface: true
-jboss_eap_bind_management_interface: false
-jboss_eap_apply_patch: true
-jboss_eap_config: standalone.xml
-jboss_eap_bind_web_address: 0.0.0.0
-jboss_eap_bind_management_address: 0.0.0.0
 
