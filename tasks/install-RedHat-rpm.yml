@@ -2,10 +2,11 @@
   yum:
     name: "{{ jboss_eap_package_list }}"
     state: present
+  register: jboss_yum_install
   tags:
     - jboss_eap
 
-- name: RHEL | Copy EAP service configuration (sysconfig_eap{{ jboss_eap_base_version | int }}.j2)
+- name: RHEL | Copy EAP service configuration ({{ jboss_eap_service_conf_file }})
   template:
     src: sysconfig_eap{{ jboss_eap_base_version | int }}.j2
     dest: "{{ jboss_eap_service_conf_file }}"
@@ -33,6 +34,12 @@
   tags:
     - jboss_eap
     - jboss_config
+
+- name: RHEL | Create default JBoss admin user
+  command: "{{ jboss_eap_jboss_home }}/bin/add-user.sh -s -r ManagementRealm -u {{ jboss_eap_admin_user }} -p {{ jboss_eap_admin_password }}"
+  when: jboss_yum_install.changed
+  tags:
+    - jboss_eap
 
 - name: RHEL | Start and enable JBOSS
   service:
