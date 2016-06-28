@@ -1,6 +1,5 @@
 jboss_eap_install_method: rpm                   # rpm or zip
 jboss_eap_base_version: 6.4
-jboss_eap_service_name: "{{ jboss_eap_base_version | version_compare('7.0', '<') | ternary('jbossas', 'eap7-standalone') }}"
 jboss_eap_runtime_conf_file: "{{ jboss_eap_jboss_home }}/bin/{{ jboss_eap_configuration }}.conf"
 jboss_eap_java_home: "/usr/lib/jvm/jre"         # /usr/lib/jvm/jre for JRE, /usr/lib/jvm/jdk for JDK
 jboss_eap_javapth: "$JAVA_HOME/bin"             # Make sure java is on your path
@@ -12,9 +11,8 @@ jboss_eap_user: jboss                           # The username who should own th
 jboss_eap_group: jboss                          # The group in which the username who should own the process belongs to.
 jboss_eap_startup_wait: 60                      # The amount of time to wait for startup
 jboss_eap_shutdown_wait: 20                     # The amount of time to wait for shutdown
-jboss_eap_jboss_home: "/usr/share/{{ jboss_eap_service_name }}"       # Define where jboss is - this is the directory containing directories appclient, bin, bundles, docs, domain etc
 jboss_eap_configuration: standalone             # Define jboss configuration to start
-jboss_eap_console_log: "/var/log/jbossas/$JBOSSCONF/console.log"  # Location to keep the console log, the file to be searched for the server
+jboss_eap_console_log: "/var/log/{{ jboss_eap_service_name }}/$JBOSSCONF/console.log"  # Location to keep the console log, the file to be searched for the server
 jboss_eap_sh: "$JBOSS_HOME/bin/$JBOSSCONF.sh"   # Define the script to use to start jboss
 jboss_eap_server_config: "{{ jboss_eap_configuration }}.xml" # Define server configuration to start, eg. standalone.xml
 jboss_eap_module_path: "$JBOSS_HOME/modules"    # Define where jboss module directory is
@@ -49,5 +47,3 @@ jboss_eap_runtime_java_opts:
   # - "-Djboss.modules.lockless=false"                  # Do not use JBoss Modules lockless mode
   # - "-Djboss.modules.metrics=true"                    # Gather JBoss Modules metrics
 jboss_eap_runtime_secmgr: ""                          # Whether to run with a security manager enabled. true or false
-
-

@@ -17,7 +17,7 @@ Role Variables
 | `jboss_eap_install_method` | `rpm` | How it install EAP: `rpm` or `zip`. Zip installation isn't currently built. |
 | `jboss_eap_base_version` | `6.4` | Base EAP version to install. Can be a major version (6 or 7) or a minor version (6.4 or 7.0) |
 | `jboss_eap_service_name` | `jbossas` or `eap7-standalone` | Sets the service name based on the EAP version. |
-| `jboss_eap_runtime_conf_file` | `` |  |
+| `jboss_eap_runtime_conf_file` | `{{ jboss_eap_jboss_home }}/bin/{{ jboss_eap_configuration }}.conf` | Runtime configuration file location. |
 | `jboss_eap_service_conf_dir` | `[varies by OS version]` |  |
 | `jboss_eap_service_conf_file` | `[varies by OS version]` |  |
 | `jboss_eap_admin_user` | `jbadmin` | Default admin account created after installation. |

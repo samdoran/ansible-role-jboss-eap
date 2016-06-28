@@ -1,0 +1,34 @@
+- include: configure_service.yml
+
+- name: ZIP | Copy JBoss EAP zip file to {{ jboss_eap_install_dir }}
+  copy:
+    src: "{{ jboss_eap_zip_file }}"
+    dest: "{{ jboss_eap_install_dir }}"
+  tags:
+    - jboss_eap
+
+- name: ZIP | Extract JBoss EAP zip file to {{ jboss_eap_library_dest }}
+  unarchive:
+    src: "{{ jboss_eap_install_dir }}/{{ jboss_eap_zip_file }}"
+    dest: "{{ jboss_eap_library_dest }}"
+    copy: no
+    creates: "{{ jboss_eap_jboss_home }}"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+  register: jboss_install
+  tags:
+    - jbass_eap
+
+- name: ZIP | Copy EAP server configuration ({{ jboss_eap_server_config }})
+  copy:
+    src: "{{ jboss_eap_server_config }}"
+    dest: "{{ jboss_eap_jboss_home }}/{{ jboss_eap_server_config }}"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+  notify: restart eap
+  tags:
+    - jboss_eap
+    - jboss_config
+
+# - name: Apply patch
+

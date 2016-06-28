@@ -1,0 +1,43 @@
+- name: ZIP | Create JBoss group ({{ jboss_eap_group }})
+  group:
+    name: "{{ jboss_eap_group }}"
+    gid: 400
+    system: yes
+  tags:
+    - jboss_eap
+    - jboss_eap-user
+    - jboss_eap-group
+
+- name: ZIP | Create JBoss user ({{ jboss_eap_user }})
+  user:
+    name: "{{ jboss_eap_user }}"
+    comment: JBoss
+    group: "{{ jboss_eap_group }}"
+    uid: 400
+    system: yes
+  tags:
+    - jboss_eap
+    - jboss_eap-user
+
+- name: ZIP | Create JBoss directories
+  file:
+    dest: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+  with_items:
+    - "{{ jboss_eap_service_log_dir }}"
+    - "{{ jboss_eap_service_data_dir }}"
+  tags:
+    - jboss_eap
+
+- name: ZIP | Copy {{ jboss_eap_service_name }} init file
+  template:
+    src: "{{ jboss_eap_service_name }}-{{ jboss_eap_configuration }}.sh.j2"
+    dest: /etc/init.d/{{ jboss_eap_service_name }}
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - jboss_eap

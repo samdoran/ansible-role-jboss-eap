@@ -1,0 +1,3 @@
+jboss_eap_service_name: "{{ jboss_eap_base_version | version_compare('7.0', '<') | ternary('jbossas', 'eap7-standalone') }}"
+jboss_eap_library_dest: /usr/share
+jboss_eap_jboss_home: "{{ jboss_eap_library_dest }}/{{ jboss_eap_service_name }}"       # Define where jboss is - this is the directory containing directories appclient, bin, bundles, docs, domain etc

@@ -1,8 +1,9 @@
-- name: Include distribution specific variables
+- name: Include distribution and installation type variables
   include_vars: "{{ item }}"
   with_items:
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - install-{{ jboss_eap_install_method }}.yml
   tags:
     - jboss_eap
     - jboss_config
@@ -12,3 +13,46 @@
   tags:
     - jboss_eap
 
+- name: Copy EAP service configuration ({{ jboss_eap_service_conf_file }})
+  template:
+    src: sysconfig_eap{{ jboss_eap_base_version | int }}.j2
+    dest: "{{ jboss_eap_service_conf_file }}"
+  notify: restart eap
+  tags:
+    - jboss_eap
+    - jboss_config
+
+- name: Copy EAP runtime configuration ({{ jboss_eap_runtime_conf_file }})
+  template:
+    src: runtime_{{ jboss_eap_configuration }}.conf.j2
+    dest: "{{ jboss_eap_runtime_conf_file }}"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+  notify: restart eap
+  tags:
+    - jboss_eap
+    - jboss_config
+
+- name: Copy EAP server configuration ({{ jboss_eap_server_config }})
+  copy:
+    src: "{{ jboss_eap_server_config }}"
+    dest: "{{ jboss_eap_jboss_home }}/{{ jboss_eap_server_config }}"
+  notify: restart eap
+  tags:
+    - jboss_eap
+    - jboss_config
+
+- name: Create default JBoss admin user
+  command: "{{ jboss_eap_jboss_home }}/bin/add-user.sh -s -r ManagementRealm -u {{ jboss_eap_admin_user }} -p {{ jboss_eap_admin_password }}"
+  when: jboss_install.changed
+  tags:
+    - jboss_eap
+
+- name: Start and enable JBOSS
+  service:
+    name: "{{ jboss_eap_service_name }}"
+    state: started
+    enabled: yes
+  register: jboss_eap_start
+  tags:
+    - jboss_eap
