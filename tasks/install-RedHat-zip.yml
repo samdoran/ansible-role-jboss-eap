@@ -1,15 +1,25 @@
 - include: configure_service.yml
 
-- name: ZIP | Copy JBoss EAP zip file to {{ jboss_eap_install_dir }}
+- name: ZIP | Copy JBoss EAP zip file to {{ jboss_eap_download_dir }}
   copy:
     src: "{{ jboss_eap_zip_file }}"
-    dest: "{{ jboss_eap_install_dir }}"
+    dest: "{{ jboss_eap_download_dir }}"
+  when: jboss_eap_zip_file_url is not defined
   tags:
     - jboss_eap
 
+- name: ZIP | Download zip file to {{ jboss_eap_download_dir }}
+  get_url:
+    url: "{{ jboss_eap_zip_file_url }}"
+    dest: "{{ jboss_eap_download_dir }}"
+  when: jboss_eap_zip_file_url is defined
+  tags:
+    - jboss_eap
+
+
 - name: ZIP | Extract JBoss EAP zip file to {{ jboss_eap_library_dest }}
   unarchive:
-    src: "{{ jboss_eap_install_dir }}/{{ jboss_eap_zip_file }}"
+    src: "{{ jboss_eap_download_dir }}/{{ jboss_eap_zip_file }}"
     dest: "{{ jboss_eap_library_dest }}"
     copy: no
     creates: "{{ jboss_eap_jboss_home }}"

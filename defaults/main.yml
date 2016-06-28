@@ -1,4 +1,5 @@
 jboss_eap_install_method: rpm                   # rpm or zip
+# jboss_eap_zip_file_url: ''                    # When defined, download the JBoss EAP zip file instead of copying from control node
 jboss_eap_base_version: 6.4
 jboss_eap_runtime_conf_file: "{{ jboss_eap_jboss_home }}/bin/{{ jboss_eap_configuration }}.conf"
 jboss_eap_java_home: "/usr/lib/jvm/jre"         # /usr/lib/jvm/jre for JRE, /usr/lib/jvm/jdk for JDK
