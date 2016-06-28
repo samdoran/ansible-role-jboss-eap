@@ -16,7 +16,6 @@
     home: "{{ jboss_eap_jboss_home }}"
     system: yes
     uid: 400
-    system: yes
   tags:
     - jboss_eap
     - jboss_eap-user
