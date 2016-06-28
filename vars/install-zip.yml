@@ -4,4 +4,4 @@ jboss_eap_jboss_home: "{{ jboss_eap_library_dest }}/jboss-eap-{{ jboss_eap_base_
 jboss_eap_zip_file: "jboss-eap-{{ jboss_eap_base_version }}.0.zip"
 jboss_eap_service_log_dir: "/var/log/{{ jboss_eap_service_name }}"
 jboss_eap_service_data_dir: "/var/run/{{ jboss_eap_service_name }}"
-jboss_eap_install_dir: "/tmp"
+jboss_eap_download_dir: "/var/tmp"
