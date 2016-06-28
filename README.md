@@ -12,9 +12,15 @@ Red Hat subscription.
 Role Variables
 --------------
 
+Variables are defined in `defaults/main.yml` as well as `vars/`. Based on the operating system family, version, and installation method, variables will be set the appropriate values.
+
 | Name              | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
-| `jboss_eap_install_method` | `rpm` | How it install EAP: `rpm` or `zip`. Zip installation isn't currently built. |
+| `jboss_eap_install_method` | `rpm` | How it install EAP: `rpm` or `zip`. |
+| `jboss_eap_zip_file` | `jboss-eap-{{ jboss_eap_base_version }}.0.zip` | Name of the JBoss EAP zip file to copy to the managed node and extract. |
+| `jboss_eap_zip_file_url` | `[undefined]` |  When defined, download the EAP zip file from here instead of copying from the control node. If this is undefined, the zip file must be placed in the `files` directory within the role and named `{{ jboss_eap_zip_file_name }}` |
+| `jboss_eap_patch_file` | `jboss-eap-{{ jboss_eap_base_version }}.{{ jboss_eap_minor_version }}-patch.zip` | Name of the JBoss EAP patch file to copy to the managed node apply. |
+| `jboss_eap_patch_file_url` | `[undefined]` |  When defined, download the EAP patch file from here instead of copying from the control node. If this is undefined, the patch file must be placed in the `files` directory within the role and named `{{ jboss_eap_patch_file_name }}` |
 | `jboss_eap_base_version` | `6.4` | Base EAP version to install. Can be a major version (6 or 7) or a minor version (6.4 or 7.0) |
 | `jboss_eap_service_name` | `jbossas` or `eap7-standalone` | Sets the service name based on the EAP version. |
 | `jboss_eap_runtime_conf_file` | `{{ jboss_eap_jboss_home }}/bin/{{ jboss_eap_configuration }}.conf` | Runtime configuration file location. |
@@ -56,8 +62,6 @@ Dependencies
 
 Example Playbook
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
     - hosts: all
       roles:
