@@ -13,6 +13,8 @@
     name: "{{ jboss_eap_user }}"
     comment: JBoss
     group: "{{ jboss_eap_group }}"
+    home: "{{ jboss_eap_jboss_home }}"
+    system: yes
     uid: 400
     system: yes
   tags:
