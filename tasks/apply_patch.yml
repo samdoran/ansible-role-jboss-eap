@@ -27,10 +27,13 @@
     - jboss_eap_patch
 
 - name: PATCH | Apply JBoss EAP patch
-  command: "{{ jboss_eap_jboss_home }}/bin/jboss-cli.sh 'patch apply {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file }}'"
+  shell: "{{ jboss_eap_jboss_home }}/bin/jboss-cli.sh 'patch apply {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file }}'"
   become: yes
   become_user: "{{ jboss_eap_user }}"
   notify: restart eap
+  when:
+    - jboss_eap_patch
+    - "'base' in jboss_patch_info.stdout"
   tags:
     - jboss_eap
     - jboss_eap_patch
