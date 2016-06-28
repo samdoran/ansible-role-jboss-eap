@@ -16,13 +16,12 @@
   tags:
     - jboss_eap
 
-
 - name: ZIP | Extract JBoss EAP zip file to {{ jboss_eap_library_dest }}
   unarchive:
     src: "{{ jboss_eap_download_dir }}/{{ jboss_eap_zip_file }}"
     dest: "{{ jboss_eap_library_dest }}"
     copy: no
-    creates: "{{ jboss_eap_jboss_home }}"
+    creates: "{{ jboss_eap_jboss_home }}/version.txt"
     owner: "{{ jboss_eap_user }}"
     group: "{{ jboss_eap_group }}"
   register: jboss_install
