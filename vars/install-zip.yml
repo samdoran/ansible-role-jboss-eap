@@ -2,6 +2,7 @@ jboss_eap_service_name: "{{ jboss_eap_base_version | version_compare('7.0', '<')
 jboss_eap_library_dest: /opt
 jboss_eap_jboss_home: "{{ jboss_eap_library_dest }}/jboss-eap-{{ jboss_eap_base_version }}"       # Define where jboss is - this is the directory containing directories appclient, bin, bundles, docs, domain etc
 jboss_eap_zip_file: "jboss-eap-{{ jboss_eap_base_version }}.0.zip"
+jboss_eap_patch_file: "jboss-eap-{{ jboss_eap_base_version }}.{{ jboss_eap_minor_version }}-patch.zip"
 jboss_eap_service_log_dir: "/var/log/{{ jboss_eap_service_name }}"
 jboss_eap_service_data_dir: "/var/run/{{ jboss_eap_service_name }}"
 jboss_eap_download_dir: "/var/tmp"

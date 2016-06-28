@@ -1,0 +1,36 @@
+- name: PATCH | Copy EAP patch file to {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file }}
+  copy:
+    src: "{{ jboss_eap_patch_file }}"
+    dest: "{{ jboss_eap_download_dir }}"
+  when: jboss_eap_patch_file_url is not defined
+  tags:
+    - jboss_eap
+    - jboss_eap_patch
+
+- name: PATCH | Download EAP patch file to {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file }}
+  get_url:
+    url: "{{ jboss_eap_patch_file_url }}"
+    dest: "{{ jboss_eap_download_dir }}"
+  when: jboss_eap_patch_file_url is defined
+  tags:
+    - jboss_eap
+    - jboss_eap_patch
+
+- name: PATCH | Determine if patch can be applied
+  command: "{{ jboss_eap_jboss_home }}/bin/jboss-cli.sh 'patch info'"
+  become: yes
+  become_user: "{{ jboss_eap_user }}"
+  register: jboss_patch_info
+  changed_when: no
+  tags:
+    - jboss_eap
+    - jboss_eap_patch
+
+- name: PATCH | Apply JBoss EAP patch
+  command: "{{ jboss_eap_jboss_home }}/bin/jboss-cli.sh 'patch apply {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file }}'"
+  become: yes
+  become_user: "{{ jboss_eap_user }}"
+  notify: restart eap
+  tags:
+    - jboss_eap
+    - jboss_eap_patch

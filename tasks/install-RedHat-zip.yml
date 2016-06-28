@@ -40,5 +40,5 @@
     - jboss_eap
     - jboss_config
 
-# - name: Apply patch
-
+- include: apply_patch.yml
+  when: jboss_eap_patch
