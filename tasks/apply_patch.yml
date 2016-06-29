@@ -1,4 +1,4 @@
-- name: PATCH | Copy EAP patch file to {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file }}
+- name: PATCH | Copy EAP patch file to {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file | basename }}
   copy:
     src: "{{ jboss_eap_patch_file }}"
     dest: "{{ jboss_eap_download_dir }}"
@@ -7,7 +7,7 @@
     - jboss_eap
     - jboss_eap_patch
 
-- name: PATCH | Download EAP patch file to {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file }}
+- name: PATCH | Download EAP patch file to {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file | basename }}
   get_url:
     url: "{{ jboss_eap_patch_file_url }}"
     dest: "{{ jboss_eap_download_dir }}"
@@ -27,7 +27,7 @@
     - jboss_eap_patch
 
 - name: PATCH | Apply JBoss EAP patch
-  shell: "{{ jboss_eap_jboss_home }}/bin/jboss-cli.sh 'patch apply {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file }}'"
+  shell: "{{ jboss_eap_jboss_home }}/bin/jboss-cli.sh 'patch apply {{ jboss_eap_download_dir }}/{{ jboss_eap_patch_file | basename }}'"
   become: yes
   become_user: "{{ jboss_eap_user }}"
   notify: restart eap
