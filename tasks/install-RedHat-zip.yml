@@ -18,7 +18,7 @@
 
 - name: ZIP | Extract JBoss EAP zip file to {{ jboss_eap_library_dest }}
   unarchive:
-    src: "{{ jboss_eap_download_dir }}/{{ jboss_eap_zip_file }}"
+    src: "{{ jboss_eap_download_dir }}/{{ jboss_eap_zip_file | basename }}"
     dest: "{{ jboss_eap_library_dest }}"
     copy: no
     creates: "{{ jboss_eap_jboss_home }}/version.txt"
