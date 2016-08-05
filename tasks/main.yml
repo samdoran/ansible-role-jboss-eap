@@ -49,7 +49,7 @@
   tags:
     - jboss_eap
 
-- name: Start and enable JBOSS
+- name: Start and enable JBoss
   service:
     name: "{{ jboss_eap_service_name }}"
     state: started
