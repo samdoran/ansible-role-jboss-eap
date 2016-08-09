@@ -36,12 +36,6 @@ Variables related to Kerberos and keytab files.
 | `jboss_eap_keytab_dir` | `/etc/jboss/keytab` | Directroy where keytab files wille be stored. |
 | `jboss_eap_keytab_filename` | `keytab` | Filename of keytab. |
 
-
-| `jboss_eap_patch_file` | `jboss-eap-{{ jboss_eap_base_version }}.{{ jboss_eap_minor_version }}-patch.zip` | Name of the JBoss EAP patch file to copy to the managed node apply. |
-| `jboss_eap_service_name` | `jbossas` or `eap7-standalone` | Sets the service name based on the EAP version. |
-| `jboss_eap_service_conf_dir` | `[varies by OS version]` |  |
-| `jboss_eap_service_conf_file` | `[varies by OS version]` |  |
-
 Service configuration for EAP6 (`/etc/sysconfig/jbossas`)
 
 | Name              | Default Value       | Description          |
@@ -82,8 +76,6 @@ Runtime settings for EAP6
 | `jboss_eap_runtime_java_bin` | `null` | Specify the exact Java VM executable to use. |
 | `jboss_eap_runtime_preserve_java_opts` | `null` | Prevent manipulation of JVM options by shell scripts. true or false |
 | `jboss_eap_runtime_java_opts` | `[see defaults/main.yml` | List of java options passed to EAP in the `standolne.conf` file. |
-
-
 
 Dependencies
 ------------
