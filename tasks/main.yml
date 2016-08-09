@@ -47,6 +47,18 @@
     src: "{{ jboss_eap_server_config }}"
     dest: "{{ jboss_eap_jboss_home }}/standalone/configuration/{{ jboss_eap_server_config }}"
   notify: restart eap
+  when: jboss_eap_server_config_script is not defined
+  tags:
+    - jboss_eap
+    - jboss_config
+
+- name: Copy EAP server configuration script ({{ jboss_eap_server_config_script }}.j2)
+  template:
+    src: "{{ jboss_eap_server_config_script }}.j2"
+    dest: "{{ jboss_eap_jboss_home }}/bin/{{ jboss_eap_server_config_script }}"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: 0644
   tags:
     - jboss_eap
     - jboss_config

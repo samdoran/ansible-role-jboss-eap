@@ -49,6 +49,7 @@ Service configuration for EAP6 (`/etc/sysconfig/jbossas`)
 | `jboss_eap_console_log` | `/var/log/jbossas/$JBossCONF/console.log` | Locatin of the console log. |
 | `jboss_eap_sh` | `$JBoss_HOME/bin/$JBossCONF.sh` | Script that starts JBoss. |
 | `jboss_eap_server_config` | `{{ jboss_eap_configuration }}.xml` | Server configuration to start. |
+| `jboss_eap_server_config_script` | `[undefined]` | When defined, copy this script to the remote server and run it rather than managing the entire `standalone.xml`. |
 | `jboss_eap_module_path` | `$JBOSS_HOME/modules` | JBoss module directory. |
 
 Service settings for EAP7 (`/etc/opt/rh/eap7/wildfly/eap7-standalone`)
