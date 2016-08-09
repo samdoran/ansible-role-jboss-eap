@@ -8,7 +8,7 @@
   with_items:
     - path: "{{ jboss_eap_keytab_dir | dirname }}"
       mode: "0755"
-    - path: "{{ jboss_eap_keytab_dir | basename }}"
+    - path: "{{ jboss_eap_keytab_dir }}"
       mode: "0700"
 
 - name: Copy keytab file
