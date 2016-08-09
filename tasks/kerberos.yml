@@ -1,0 +1,20 @@
+- name: Create keytab directory
+  file:
+    state: directory
+    path: "{{ item.path }}"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - path: "{{ jboss_eap_keytab_dir | dirname }}"
+      mode: "0755"
+    - path: "{{ jboss_eap_keytab_dir | basename }}"
+      mode: "0700"
+
+- name: Copy keytab file
+  template:
+    src: keytab.j2
+    dest: "{{ jboss_eap_keytab_dir }}/{{ jboss_eap_keytab_filename }}"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: 0400

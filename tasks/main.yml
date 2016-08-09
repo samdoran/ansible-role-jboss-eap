@@ -14,6 +14,14 @@
   tags:
     - jboss_eap
 
+- name: Configure Kerberos
+  include: kerberos.yml
+  when: jboss_eap_configure_kerberos
+  tags:
+    - jboss_eap
+    - jboss_config
+    - jboss_kerberos
+
 - name: Copy EAP service configuration ({{ jboss_eap_service_conf_file }})
   template:
     src: sysconfig_eap{{ jboss_eap_base_version | int }}.j2

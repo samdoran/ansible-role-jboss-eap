@@ -10,6 +10,11 @@ jboss_eap_javapth: "$JAVA_HOME/bin"             # Make sure java is on your path
 jboss_eap_admin_user: jbadmin
 jboss_eap_admin_password: JBadmin-581
 
+# Settings related to Kerberos config
+jboss_eap_configure_kerberos: no                # Whether or not to run tasks in kerberos.yml
+jboss_eap_keytab_dir: /etc/jboss/keytab
+jboss_eap_keytab_filename: keytab
+
 # Service settings for EAP6
 jboss_eap_user: jboss                           # The username who should own the process.
 jboss_eap_group: jboss                          # The group in which the username who should own the process belongs to.
