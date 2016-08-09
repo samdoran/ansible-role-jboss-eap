@@ -33,7 +33,7 @@
 
 - name: Copy EAP runtime configuration ({{ jboss_eap_runtime_conf_file }})
   template:
-    src: runtime_{{ jboss_eap_configuration }}.conf.j2
+    src: runtime.conf.j2
     dest: "{{ jboss_eap_runtime_conf_file }}"
     owner: "{{ jboss_eap_user }}"
     group: "{{ jboss_eap_group }}"
@@ -45,7 +45,7 @@
 - name: Copy EAP server configuration ({{ jboss_eap_server_config }})
   copy:
     src: "{{ jboss_eap_server_config }}"
-    dest: "{{ jboss_eap_jboss_home }}/{{ jboss_eap_server_config }}"
+    dest: "{{ jboss_eap_jboss_home }}/standalone/configuration/{{ jboss_eap_server_config }}"
   notify: restart eap
   tags:
     - jboss_eap
