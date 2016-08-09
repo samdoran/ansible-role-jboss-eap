@@ -12,8 +12,8 @@
       mode: "0700"
 
 - name: Copy keytab file
-  template:
-    src: keytab.j2
+  copy:
+    src: "{{ jboss_eap_keytab_file_dir + '/' if jboss_eap_keytab_file_dir is defined else '' }}{{ jboss_eap_keytab_source_filename }}"
     dest: "{{ jboss_eap_keytab_dir }}/{{ jboss_eap_keytab_filename }}"
     owner: "{{ jboss_eap_user }}"
     group: "{{ jboss_eap_group }}"
