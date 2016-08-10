@@ -1,6 +1,6 @@
 galaxy_info:
   author: Sam Doran
-  description: "Install Red Hat JBOESS EAP"
+  description: "Install Red Hat JBoss EAP"
   company:
   license: MIT
   min_ansible_version: 2.0
