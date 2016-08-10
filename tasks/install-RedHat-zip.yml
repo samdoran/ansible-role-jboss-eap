@@ -28,16 +28,5 @@
   tags:
     - jbass_eap
 
-- name: ZIP | Copy EAP server configuration ({{ jboss_eap_server_config }})
-  copy:
-    src: "{{ jboss_eap_server_config }}"
-    dest: "{{ jboss_eap_jboss_home }}/{{ jboss_eap_server_config }}"
-    owner: "{{ jboss_eap_user }}"
-    group: "{{ jboss_eap_group }}"
-  notify: restart eap
-  tags:
-    - jboss_eap
-    - jboss_config
-
 - include: apply_patch.yml
   when: jboss_eap_patch
