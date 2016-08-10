@@ -12,6 +12,7 @@ jboss_eap_admin_password: JBadmin-581
 
 # Settings related to Kerberos config
 jboss_eap_configure_kerberos: no                # Whether or not to run tasks in kerberos.yml
+# jboss_eap_keytab_src_dir: /etc/jboss/keytab
 jboss_eap_keytab_dir: /etc/jboss/keytab
 jboss_eap_keytab_filename: keytab
 

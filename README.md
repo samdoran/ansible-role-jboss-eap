@@ -33,7 +33,8 @@ Variables related to Kerberos and keytab files.
 | Name              | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
 | `jboss_eap_configure_kerberos` | `no` | Whether or not to run tasks in kerberos.yml |
-| `jboss_eap_keytab_dir` | `/etc/jboss/keytab` | Directroy where keytab files wille be stored. |
+| `jboss_eap_keytab_file_dir` | `[undefined]` | Directory containing keytab files on the control server if they are not stored in the `files` directory within the role. Since these are sensitive, it is recommended to store them outside of the role so they do not get committed to version control. |
+| `jboss_eap_keytab_dir` | `/etc/jboss/keytab` | Directory where keytab files will be stored on the managed system. |
 | `jboss_eap_keytab_filename` | `keytab` | Filename of keytab. |
 
 Service configuration for EAP6 (`/etc/sysconfig/jbossas`)
