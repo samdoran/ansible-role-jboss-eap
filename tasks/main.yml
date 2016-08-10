@@ -59,6 +59,7 @@
     owner: "{{ jboss_eap_user }}"
     group: "{{ jboss_eap_group }}"
     mode: 0644
+  notify: reconfigure eap
   tags:
     - jboss_eap
     - jboss_config

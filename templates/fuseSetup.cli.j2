@@ -1,0 +1,35 @@
+# Fuse Setup CLI Script
+connect
+batch
+
+# Configuring the system properties:
+# Note: /etc/krb5.conf is the default location of the kerberos configuration file.
+/system-property=sun.security.krb5.debug:add(value="true")
+/system-property=java.security.krb5.conf:add(value="/etc/krb5.conf")
+
+# Configuring Infinispan cache.
+/subsystem=infinispan/cache-container=security:add(default-cache=auth-cache)
+/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase:add()
+/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase/expiration=EXPIRATION:add(lifespan=3540000,max-idle=3540000)
+/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase/eviction=EVICTION:add(strategy=LRU, max-entries=1000)
+
+# Configuring the Security domain.
+# Note: The Parameters below SHOULD have their Values wrapped in Quotes
+/subsystem=security/security-domain=mssqlKerberos:add(cache-type=infinispan)
+/subsystem=security/security-domain=mssqlKerberos/authentication=classic:add
+/subsystem=security/security-domain=mssqlKerberos/authentication=classic/login-module="Kerberos-Module":add(code="org.jboss.security.negotiation.KerberosLoginModule", module="org.jboss.security.negotiation", flag=required, module-options={"storeKey" => "false", "useKeyTab" => "true", "doNotPrompt" => "true", "debug" => "{{ jboss_eap_kerberos_debug }}", "keyTab" => "{{ jboss_eap_keytab_dir }}/{{ jboss_eap_keytab_filename }}", "principal" => "HTTP/{{ ansible_hostname | lower }}@{{ ansible_domain }}","refreshKrb5Config" => "true", "isInitiator" => "true", "addGSSCredential" => "true", "wrapGSSCredential" => "true", "credentialLifetime" => "-1"})
+
+# Configuring Data source
+# Note: The Parameters below SHOULD NOT have their Values wrapped in Quotes
+/subsystem=datasources/data-source=mssqlDSKerberos:add(jndi-name="java:jboss/datasources/mssqlDSKerberos",use-ccm=true,connection-url="jdbc:sqlserver://{{ jboss_eap_database_host }}:{{ jboss_eap_database_port }};DatabaseName={{ jboss_eap_database_name }};integratedSecurity=true;authenticationScheme=JavaKerberos",driver-name={{ jboss_eap_database_driver_name }},security-domain="{{ jboss_eap_database_security_domain }}",pool-prefill=true,min-pool-size=2,max-pool-size=5,pool-use-strict-min=true,valid-connection-checker-class-name="org.jboss.jca.adapters.jdbc.extensions.mssql.MSSQLValidConnectionChecker",exception-sorter-class-name=org.jboss.resource.adapter.jdbc.vendor.NullExceptionSorter)
+
+# Configuring Driver
+/subsystem=datasources/jdbc-driver=mssql:add(driver-module-name="com.microsoft.sqlserver.jdbc",driver-xa-datasource-class-name=com.microsoft.sqlserver.jdbc.SQLServerXADataSource,driver-name=mssql)
+
+# Setup SSL
+/subsystem=web/connector=HTTPS/:add(socket-binding=https,scheme=https,protocol=HTTP/1.1,secure=true)
+/subsystem=web/connector=HTTPS/ssl=configuration:add(name=https,certificate-key-file="${jboss.server.config.dir}/{{ jboss_eap_ssl_keystore_name }}",password={{ jboss_eap_ssl_keystore_password }}, key-alias={{ jboss_eap_ssl_keystore_alias }})
+
+# Execute and reload
+run-batch
+:reload
