@@ -8,7 +8,7 @@ end-if
 
 # If exists remove system property java.security.krb5.conf
 if (outcome == success) of /system-property=java.security.krb5.conf:read-attribute(name=value)
-	/system-property=java.security.krb5.conf:undefine-attribute(name=value)	
+	/system-property=java.security.krb5.conf:undefine-attribute(name=value)
 	/system-property=java.security.krb5.conf:remove
 end-if
 
@@ -23,13 +23,13 @@ if (outcome == success) of /subsystem=datasources/data-source=mssqlDS:read-resou
 end-if
 
 # If exists remove Driver
-if (outcome == success) of /subsystem=datasources/jdbc-driver=mssql:read-resource
-	/subsystem=datasources/jdbc-driver=mssql:remove
+if (outcome == success) of /subsystem=datasources/jdbc-driver={{ jboss_eap_database_driver_name }}:read-resource
+	/subsystem=datasources/jdbc-driver={{ jboss_eap_database_driver_name }}:remove
 end-if
 
 # If exists remove Security Domain
-if (outcome == success) of /subsystem=security/security-domain=mssqlKerberos:read-resource
- /subsystem=security/security-domain=mssqlKerberos:remove
+if (outcome == success) of /subsystem=security/security-domain={{ jboss_eap_database_security_domain }}:read-resource
+ /subsystem=security/security-domain={{ jboss_eap_database_security_domain }}:remove
 end-if
 
 # If exists remove security cache container
@@ -47,19 +47,19 @@ end-if
 
 # Configuring the Security domain.
 # Note: The Parameters below SHOULD have their Values wrapped in Quotes
-/subsystem=security/security-domain=mssqlKerberos:add(cache-type=infinispan)
-/subsystem=security/security-domain=mssqlKerberos/authentication=classic:add
-/subsystem=security/security-domain=mssqlKerberos/authentication=classic/login-module="Kerberos-Module":add(code="org.jboss.security.negotiation.KerberosLoginModule", module="org.jboss.security.negotiation", flag=required, module-options={"storeKey" => "false", "useKeyTab" => "true", "doNotPrompt" => "true", "debug" => "{{ jboss_eap_kerberos_debug }}", "keyTab" => "{{ jboss_eap_keytab_dir }}/{{ jboss_eap_keytab_filename }}", "principal" => "HTTP/{{ ansible_hostname | lower }}@{{ ansible_domain }}","refreshKrb5Config" => "true", "isInitiator" => "true", "addGSSCredential" => "true", "wrapGSSCredential" => "true", "credentialLifetime" => "-1"})
-	
+/subsystem=security/security-domain={{ jboss_eap_database_security_domain }}:add(cache-type=infinispan)
+/subsystem=security/security-domain={{ jboss_eap_database_security_domain }}/authentication=classic:add
+/subsystem=security/security-domain={{ jboss_eap_database_security_domain }}/authentication=classic/login-module="Kerberos-Module":add(code="org.jboss.security.negotiation.KerberosLoginModule", module="org.jboss.security.negotiation", flag=required, module-options={"storeKey" => "false", "useKeyTab" => "true", "doNotPrompt" => "true", "debug" => "{{ jboss_eap_kerberos_debug }}", "keyTab" => "{{ jboss_eap_keytab_dir }}/{{ jboss_eap_keytab_filename }}", "principal" => "HTTP/{{ ansible_hostname | lower }}@{{ ansible_domain }}","refreshKrb5Config" => "true", "isInitiator" => "true", "addGSSCredential" => "true", "wrapGSSCredential" => "true", "credentialLifetime" => "-1"})
+
 # Configuring Driver
-/subsystem=datasources/jdbc-driver=mssql:add(driver-module-name="com.microsoft.sqlserver.jdbc",driver-xa-datasource-class-name=com.microsoft.sqlserver.jdbc.SQLServerXADataSource,driver-name=mssql)
+/subsystem=datasources/jdbc-driver={{ jboss_eap_database_driver_name }}:add(driver-module-name="com.microsoft.sqlserver.jdbc",driver-xa-datasource-class-name=com.microsoft.sqlserver.jdbc.SQLServerXADataSource,driver-name={{ jboss_eap_database_driver_name }})
 
 # Configuring Data source
 # Note: The Parameters below SHOULD NOT have their Values wrapped in Quotes
-/subsystem=datasources/data-source=mssqlDS:add(jndi-name="java:jboss/datasources/mssqlDS",use-ccm=true,connection-url="jdbc:sqlserver://{{ jboss_eap_database_host }}:{{ jboss_eap_database_port }};DatabaseName={{ jboss_eap_database_name }};integratedSecurity=true;authenticationScheme=JavaKerberos",driver-name="mssql",security-domain="mssqlKerberos",pool-prefill=true,min-pool-size=2,max-pool-size=5,pool-use-strict-min=true,valid-connection-checker-class-name="org.jboss.jca.adapters.jdbc.extensions.mssql.MSSQLValidConnectionChecker",exception-sorter-class-name=org.jboss.resource.adapter.jdbc.vendor.NullExceptionSorter)
+/subsystem=datasources/data-source=mssqlDS:add(jndi-name="java:jboss/datasources/mssqlDS",use-ccm=true,connection-url="jdbc:sqlserver://{{ jboss_eap_database_host }}:{{ jboss_eap_database_port }};DatabaseName={{ jboss_eap_database_name }};integratedSecurity=true;authenticationScheme=JavaKerberos",driver-name="{{ jboss_eap_database_driver_name }}",security-domain="{{ jboss_eap_database_security_domain }}",pool-prefill=true,min-pool-size=2,max-pool-size=5,pool-use-strict-min=true,valid-connection-checker-class-name="org.jboss.jca.adapters.jdbc.extensions.mssql.MSSQLValidConnectionChecker",exception-sorter-class-name=org.jboss.resource.adapter.jdbc.vendor.NullExceptionSorter)
 
 
-# If exists remove SSL 
+# If exists remove SSL
 #if (outcome == success) of /subsystem=web/connector=HTTPS/:read-resource
 #	/subsystem=web/connector=HTTPS/:remove
 #end-if
