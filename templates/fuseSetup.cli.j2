@@ -17,18 +17,6 @@ end-if
 /system-property=sun.security.krb5.debug:add(value="true")
 /system-property=java.security.krb5.conf:add(value="/etc/krb5.conf")
 
-# If exists remove security cache container
-if (outcome == success) of /subsystem=infinispan/cache-container=security:read-attribute(name=default-cache)
-	/subsystem=infinispan/cache-container=security:undefine-attribute(name=default-cache)
-	/subsystem=infinispan/cache-container=security:remove
-end-if
-
-# Configuring Infinispan cache.
-/subsystem=infinispan/cache-container=security:add(default-cache=auth-cache)
-/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase:add()
-/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase/expiration=EXPIRATION:add(lifespan=3540000,max-idle=3540000)
-/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase/eviction=EVICTION:add(strategy=LRU, max-entries=1000)
-
 # If exists remove Data source
 if (outcome == success) of /subsystem=datasources/data-source=mssqlDS:read-resource
  /subsystem=datasources/data-source=mssqlDS:remove
@@ -43,6 +31,19 @@ end-if
 if (outcome == success) of /subsystem=security/security-domain=mssqlKerberos:read-resource
  /subsystem=security/security-domain=mssqlKerberos:remove
 end-if
+
+# If exists remove security cache container
+if (outcome == success) of /subsystem=infinispan/cache-container=security:read-attribute(name=default-cache)
+	/subsystem=infinispan/cache-container=security:undefine-attribute(name=default-cache)
+	/subsystem=infinispan/cache-container=security:remove
+end-if
+
+# Configuring Infinispan cache.
+/subsystem=infinispan/cache-container=security:add(default-cache=auth-cache)
+/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase:add()
+/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase/expiration=EXPIRATION:add(lifespan=3540000,max-idle=3540000)
+/subsystem=infinispan/cache-container=security/local-cache=KerberosDatabase/eviction=EVICTION:add(strategy=LRU, max-entries=1000)
+
 
 # Configuring the Security domain.
 # Note: The Parameters below SHOULD have their Values wrapped in Quotes
