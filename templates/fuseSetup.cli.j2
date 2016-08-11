@@ -62,14 +62,12 @@ end-if
 # If exists remove SSL 
 if (outcome == success) of /subsystem=web/connector=HTTPS/:read-resource
 	/subsystem=web/connector=HTTPS/:remove
-	:reload
 end-if
 
 # Setup SSL
-if (outcome != success) of /subsystem=web/connector=HTTPS/:read-resource
-	/subsystem=web/connector=HTTPS/:add(socket-binding=https,scheme=https,protocol=HTTP/1.1,secure=true)
-	/subsystem=web/connector=HTTPS/ssl=configuration:add(name=https,certificate-key-file="${jboss.server.config.dir}/{{ jboss_eap_ssl_keystore_name }}",password={{ jboss_eap_ssl_keystore_password }}, key-alias={{ jboss_eap_ssl_keystore_alias }})
-end-if
+/subsystem=web/connector=HTTPS/:add(socket-binding=https,scheme=https,protocol=HTTP/1.1,secure=true)
+/subsystem=web/connector=HTTPS/ssl=configuration:add(name=https,certificate-key-file="${jboss.server.config.dir}/{{ jboss_eap_ssl_keystore_name }}",password={{ jboss_eap_ssl_keystore_password }}, key-alias={{ jboss_eap_ssl_keystore_alias }})
+
 
 # reload
-#:reload
+:reload
