@@ -23,7 +23,7 @@ if (outcome == success) of /subsystem=datasources/data-source=mssqlDS:read-resou
 end-if
 
 # If exists remove Driver
-if (outcome != success) of /subsystem=datasources/jdbc-driver=mssql:read-resource
+if (outcome == success) of /subsystem=datasources/jdbc-driver=mssql:read-resource
 	/subsystem=datasources/jdbc-driver=mssql:remove
 end-if
 
