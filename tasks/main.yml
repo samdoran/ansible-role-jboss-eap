@@ -74,11 +74,12 @@
   tags:
     - jboss_eap
 
+- meta: flush_handlers
+
 - name: Start and enable JBoss
   service:
     name: "{{ jboss_eap_service_name }}"
     state: started
     enabled: yes
-  register: jboss_eap_start
   tags:
     - jboss_eap
