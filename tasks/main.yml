@@ -77,6 +77,7 @@
     owner: "{{ jboss_eap_user }}"
     group: "{{ jboss_eap_group }}"
     mode: 0644
+  when: jboss_eap_server_config_script is defined
   notify: reconfigure eap
   tags:
     - jboss_eap
