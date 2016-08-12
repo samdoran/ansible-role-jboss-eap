@@ -27,7 +27,9 @@
     src: sysconfig_eap{{ jboss_eap_base_version | int }}.j2
     dest: "{{ jboss_eap_service_conf_file }}"
     backup: yes
-  notify: restart eap
+  notify:
+    - reload systemd
+    - restart eap
   tags:
     - jboss_eap
     - jboss_config

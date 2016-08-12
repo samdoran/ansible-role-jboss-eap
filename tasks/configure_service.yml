@@ -41,5 +41,6 @@
     group: root
     mode: 0755
     backup: yes
+  notify: reload systemd
   tags:
     - jboss_eap
