@@ -22,6 +22,20 @@
     - jboss_config
     - jboss_kerberos
 
+- name: Create Java keystore with self-signed certificate
+  command: >
+    keytool -genkeypair -alias {{ jboss_eap_ssl_keystore_alias }}
+            -keyalg RSA
+            -keysize 2048
+            -keystore  {{ jboss_eap_jboss_home }}/standalone/configuration/{{ jboss_eap_ssl_keystore_name }}
+            -storepass {{ jboss_eap_ssl_keystore_password }}
+            --dname 'CN={{ ansible_hostname | lower }},OU=Engineering,O={{ ansible_domain | lower }},L=Raleigh,S=NC,C=US'
+  args:
+    creates: "{{ jboss_eap_jboss_home }}/standalone/configuration/{{ jboss_eap_ssl_keystore_name }}"
+  tags:
+    - jboss_eap_keystore
+    - jboss_eap_tls
+
 - name: Copy EAP service configuration ({{ jboss_eap_service_conf_file }})
   template:
     src: sysconfig_eap{{ jboss_eap_base_version | int }}.j2
