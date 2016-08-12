@@ -26,6 +26,7 @@
   template:
     src: sysconfig_eap{{ jboss_eap_base_version | int }}.j2
     dest: "{{ jboss_eap_service_conf_file }}"
+    backup: yes
   notify: restart eap
   tags:
     - jboss_eap
@@ -37,6 +38,7 @@
     dest: "{{ jboss_eap_runtime_conf_file }}"
     owner: "{{ jboss_eap_user }}"
     group: "{{ jboss_eap_group }}"
+    backup: yes
   notify: restart eap
   tags:
     - jboss_eap

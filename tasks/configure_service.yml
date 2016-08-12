@@ -40,5 +40,6 @@
     owner: root
     group: root
     mode: 0755
+    backup: yes
   tags:
     - jboss_eap
