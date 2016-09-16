@@ -24,6 +24,7 @@
     creates: "{{ jboss_eap_jboss_home }}/version.txt"
     owner: "{{ jboss_eap_user }}"
     group: "{{ jboss_eap_group }}"
+    mode: 0755
   register: jboss_install
   tags:
     - jbass_eap
