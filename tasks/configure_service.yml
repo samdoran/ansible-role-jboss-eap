@@ -44,3 +44,15 @@
   notify: reload systemd
   tags:
     - jboss_eap
+
+- name: ZIP | Configure EAP log rotation
+  template:
+    src: logrotate_eap.conf.j2
+    dest: /etc/logrotate.d/{{ jboss_eap_service_name }}
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - jboss_eap
+    - jboss_config
+    - jboss_logrotate

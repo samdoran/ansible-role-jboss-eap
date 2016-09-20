@@ -9,6 +9,7 @@ jboss_eap_java_home: "/usr/lib/jvm/jre"         # /usr/lib/jvm/jre for JRE, /usr
 jboss_eap_javapth: "$JAVA_HOME/bin"             # Make sure java is on your path
 jboss_eap_admin_user: jbadmin
 jboss_eap_admin_password: JBadmin-581
+jboss_eap_logrotate_days_to_keep: 10            # Number of days worth of logs to retain
 
 # Settings related to Kerberos config
 jboss_eap_configure_kerberos: no                # Whether or not to run tasks in kerberos.yml
