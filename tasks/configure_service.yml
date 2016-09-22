@@ -45,14 +45,13 @@
   tags:
     - jboss_eap
 
-- name: ZIP | Configure EAP log rotation
-  template:
-    src: logrotate_eap.conf.j2
-    dest: /etc/logrotate.d/{{ jboss_eap_service_name }}
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - jboss_eap
-    - jboss_config
-    - jboss_logrotate
+- name: ZIP | Compress and delete old EAP logs
+  cron:
+    name: "{{ item.name }}"
+    cron_file: "{{ jboss_eap_service_name }}"
+    hour: "{{ item.hour }}"
+    minute: "{{ item.minute }}"
+    month: "{{ item.month | default('*') }}"
+    day: "{{ item.day | default('*') }}"
+    job: "{{ item.job }}"
+  with_items: "{{ jboss_eap_cron_jobs }}"
