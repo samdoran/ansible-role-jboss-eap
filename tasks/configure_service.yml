@@ -54,7 +54,7 @@
     month: "{{ item.month | default('*') }}"
     day: "{{ item.day | default('*') }}"
     job: "{{ item.job }}"
-    user: root
+    user: "{{ jboss_eap_user }}"
   with_items: "{{ jboss_eap_cron_jobs }}"
   tags:
     - jboss_eap

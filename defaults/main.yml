@@ -66,9 +66,9 @@ jboss_eap_cron_jobs:
   - name: Compress EAP logs
     hour: 3
     minute: 05
-    job: '/usr/bin/find {{ jboss_eap_jboss_home }} -name ''server.log.????-??-??'' -exec gzip ''{}'' '';'''
+    job: '/usr/bin/find {{ jboss_eap_jboss_home }}/standalone/log -name ''server.log.????-??-??'' -exec gzip ''{}'' '';'''
 
   - name: Delete old EAP logs
     hour: 3
     minute: 20
-    job: /usr/bin/find {{ jboss_eap_jboss_home }} -name '*.gz' -mtime +{{ jboss_eap_logrotate_days_to_keep }} -delete
+    job: /usr/bin/find {{ jboss_eap_jboss_home }}/standalone/log -name '*.gz' -mtime +{{ jboss_eap_logrotate_days_to_keep }} -delete
