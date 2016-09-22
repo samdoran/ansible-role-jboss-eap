@@ -55,3 +55,6 @@
     day: "{{ item.day | default('*') }}"
     job: "{{ item.job }}"
   with_items: "{{ jboss_eap_cron_jobs }}"
+    - jboss_eap
+    - jboss_config
+    - jboss_logrotate
