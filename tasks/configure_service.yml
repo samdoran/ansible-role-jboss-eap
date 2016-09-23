@@ -45,16 +45,16 @@
   tags:
     - jboss_eap
 
-- name: ZIP | Compress and delete old EAP logs
+- name: ZIP | Install cron jobs to manage EAP logs
   cron:
     name: "{{ item.name }}"
     cron_file: "{{ jboss_eap_service_name }}"
     hour: "{{ item.hour }}"
-    minute: "{{ item.minute }}"
+    minute: "{{ item.minute | default('*') }}"
     month: "{{ item.month | default('*') }}"
     day: "{{ item.day | default('*') }}"
     job: "{{ item.job }}"
-    user: "{{ jboss_eap_user }}"
+    user: "{{ item.user | default(jboss_eap_user) }}"
   with_items: "{{ jboss_eap_cron_jobs }}"
   tags:
     - jboss_eap
