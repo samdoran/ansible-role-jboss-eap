@@ -63,6 +63,11 @@ jboss_eap_runtime_secmgr: ""                          # Whether to run with a se
 # Cron jobs that rotate and compress logs
 jboss_eap_logrotate_days_to_keep: 10            # Number of days worth of logs to retain
 jboss_eap_cron_jobs:
+  - name: Perform health check in order to ensure logs are rotated
+    hour: 3
+    minute: 0
+    job: 'curl --noproxy * -ks https://{{ ansible_default_ipv4.address }}:8443/services/rest/v1/healthcheck'
+
   - name: Compress EAP logs
     hour: 3
     minute: 05
