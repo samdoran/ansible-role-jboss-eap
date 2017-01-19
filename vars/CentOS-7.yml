@@ -1,0 +1,3 @@
+jboss_eap_service_conf_dir: "{{ jboss_eap_base_version | version_compare('7.0', '<') | ternary('/etc/sysconfig', '/etc/opt/rh/eap7/wildfly') }}"
+jboss_eap_service_conf_file: "{{ jboss_eap_service_conf_dir }}/{{ jboss_eap_service_name }}"
+

@@ -1,0 +1,2 @@
+jboss_eap_package_list:
+  - "@jboss-eap{{ jboss_eap_base_version | int }}"
