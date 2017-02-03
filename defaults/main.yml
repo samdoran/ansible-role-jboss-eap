@@ -16,6 +16,11 @@ jboss_eap_configure_kerberos: no                # Whether or not to run tasks in
 jboss_eap_keytab_dir: /etc/jboss/keytab
 jboss_eap_keytab_filename: keytab
 
+# SSL Keystore
+jboss_eap_ssl_keystore_name: server.keystore
+jboss_eap_ssl_keystore_password: BefitSlaterGuardAndyGuiltGaveRex   # Recommend storing this in Ansible Vault
+jboss_eap_ssl_keystore_alias: "{{ ansible_hostname | lower }}"
+
 # Service settings for EAP6
 jboss_eap_user: jboss                           # The username who should own the process.
 jboss_eap_group: jboss                          # The group in which the username who should own the process belongs to.

@@ -37,6 +37,13 @@ Variables related to Kerberos and keytab files.
 | `jboss_eap_keytab_dir` | `/etc/jboss/keytab` | Directory where keytab files will be stored on the managed system. |
 | `jboss_eap_keytab_filename` | `keytab` | Filename of keytab. |
 
+Variables for creating a default Java SSL keystore
+| Name              | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `jboss_eap_ssl_keystore_name` | `server.keystore` | Name of the keystore file |
+| `jboss_eap_ssl_keystore_password` | `[see defaults/main.yml]` | Random passphrase. Set this to something secure and store it in Ansible Vault. |
+| `jboss_eap_ssl_keystore_alias ` | `{{ ansible_hostname | lower }}` | Alias used to lookup the key in the keystore. |
+
 Service configuration for EAP6 (`/etc/sysconfig/jbossas`)
 
 | Name              | Default Value       | Description          |
