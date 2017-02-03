@@ -27,7 +27,7 @@
     mode: 0755
   register: jboss_install
   tags:
-    - jbass_eap
+    - jboss_eap
 
 - include: apply_patch.yml
   when: jboss_eap_patch
