@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: jboss-eap
   author: Sam Doran
   description: "Install Red Hat JBoss EAP"
   company:
